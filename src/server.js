@@ -1,7 +1,7 @@
 const express = require('express');
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
-const adminRoutes = require('./routes/adminRoutes');  // Importando as rotas de admin
+const adminRoutes = require('./routes/adminRoutes');  
 const musicRoutes = require('./routes/musicRoutes');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swaggerOptions');
@@ -11,14 +11,14 @@ connectDB();
 
 app.use(express.json());
 app.use('/api/users', userRoutes);
-app.use('/api/admins', adminRoutes);  // Usando as rotas de admin
+app.use('/api/admins', adminRoutes);  
 app.use('/api/musics', musicRoutes);
 
 // Rota de instalação
 app.get('/install', async (req, res) => {
   try {
     const User = require('./models/User');
-    const Song = require('./models/Songs'); // Certifique-se que este é o caminho correto
+    const Song = require('./models/Songs'); 
 
     // Criar administrador padrão se não existir
     let adminUser = await User.findOne({ email: 'admin@biblioteca.com' });
@@ -26,7 +26,7 @@ app.get('/install', async (req, res) => {
       adminUser = new User({
         name: 'Admin',
         email: 'adminPadrao@biblioteca.com',
-        password: 'admin123', // Lembre-se de que idealmente deve-se hashear a senha
+        password: 'admin123', 
         role: 'admin',
       });
       await adminUser.save();
@@ -36,11 +36,11 @@ app.get('/install', async (req, res) => {
     const songsCount = await Song.countDocuments();
     if (songsCount === 0) {
       const songs = [
-        { title: 'Song 1', artist: 'Artist 1', album: 'Album 1', genre: 'Genre 1', duration: 210, year: 2020 },
-        { title: 'Song 2', artist: 'Artist 2', album: 'Album 2', genre: 'Genre 2', duration: 180, year: 2019 },
-        { title: 'Song 3', artist: 'Artist 3', album: 'Album 3', genre: 'Genre 3', duration: 240, year: 2021 },
-        { title: 'Song 4', artist: 'Artist 4', album: 'Album 4', genre: 'Genre 4', duration: 200, year: 2018 },
-        { title: 'Song 5', artist: 'Artist 5', album: 'Album 5', genre: 'Genre 5', duration: 190, year: 2022 },
+        { title: 'É Ele', artist: 'Drops INA', album: 'É Ele', genre: 'Gospel', duration: 210, year: 2020 },
+        { title: 'Sua mae vai me amar', artist: 'Turma do pagode', album: 'Single', genre: 'Pagode', duration: 180, year: 2019 },
+        { title: 'To bem', artist: 'Dionisio', album: 'Single', genre: 'Pop', duration: 240, year: 2021 },
+        { title: 'Aquariano Nato', artist: 'Mc Saci', album: 'Single', genre: 'funk', duration: 200, year: 2018 },
+        { title: 'Confissioes PT2', artist: 'Veigh', album: 'Magic Show', genre: 'Trap', duration: 190, year: 2022 },
       ];
       await Song.insertMany(songs);
     }
