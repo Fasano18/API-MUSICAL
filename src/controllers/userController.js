@@ -92,7 +92,7 @@ exports.deleteUser = async (req, res) => {
 // Listar usuários com paginação
 exports.listUsers = async (req, res) => {
     try {
-        const { page = 1, limit = 10 } = req.query; // Valores padrão
+        const { page = 1, limit = 10 } = req.query; 
         const users = await User.find()
             .skip((page - 1) * limit)
             .limit(parseInt(limit));
